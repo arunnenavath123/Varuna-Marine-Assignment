@@ -4,12 +4,15 @@ Working with the AI assistant in this project was highly productive: it accelera
 
 Positives:
 - AI helped handle repetitive boilerplate quickly in both backend and frontend.
-- Smart dependency and repo setup (tsconfig, jest config, server container) saved ~1 hour.
+- Smart dependency and repo setup (tsconfig, jest config, server container) saved hours of config.
+- Translating complex FuelEU business logic (such as calculating pool constraints under Article 21, and banking logic under Article 20) directly to frontend UI components and charts was exceptionally fast.
 
 Challenges:
 - Minor syntax issue from apostrophe in string literal in `CreatePoolUseCase` required a simple fix.
-- One type missing (`@types/cors`), which was resolved via the compiler error.
+- Navigating the Vite and Tailwind v4 upgrade syntax was tricky (`@tailwindcss/postcss` setup over old config patterns caused a brief build failure).
+- Adhering to strict typing (avoiding `any`) across a split React/Node project required several iterative linting fixes (`ESLint` and `tsc -b`).
 
 What I’d do differently:
+- Maintain stronger typing for API responses in a shared `types` or `monorepo` folder rather than redefining DTOs in both backend and frontend endpoints.
 - Add an auto-run command script for migration execution and DB initialization.
-- Implement more robust frontend routing and tests early to ensure UI end-to-end behavior.
+- Implement more robust frontend e2e routing and tests early to ensure UI behavior independently.

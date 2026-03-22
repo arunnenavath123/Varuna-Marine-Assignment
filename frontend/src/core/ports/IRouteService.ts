@@ -1,5 +1,5 @@
-import { Route } from '../domain/Route';
-import { ComparisonResult } from '../domain/Comparison';
+import type { Route } from '../domain/Route';
+import type { ComparisonResult } from '../domain/Comparison';
 
 export interface IRouteService {
   getAllRoutes(): Promise<Route[]>;

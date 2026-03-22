@@ -1,23 +1,22 @@
 # Agent Workflow
 
 ## Tools used
-- GitHub Copilot (Raptor mini Preview) in VSCode
-- Terminal commands to bootstrap packages, create directories, and run tests
+- Copilot / LLM assistant for structural code generation and iteration.
+- Terminal tools (`npm run lint`, `tsc -b`, `vite build`) to verify syntax, correctness, and build.
 
 ## Session chronology
-1. Inspected project structure with `list_dir` and `read_file`.
-2. Installed backend dependencies with `npm install` (workaround for PowerShell execution policy via `cmd /c`).
-3. Created skeleton folders and initial config files (`tsconfig`, `.eslintrc`, `.prettierrc`, `package.json` scripts).
-4. Implemented core domain interfaces and compliance math.
-5. Added ports and use-case classes using dependency injection.
-6. Built DB schema migration and seed SQL plus Postgres adapter implementation.
-7. Built HTTP routers and Express app with global error handling.
-8. Added unit tests and ran `npx jest --runInBand`; fixed syntax bug in CreatePoolUseCase string quoting.
-9. Completed backend compile with `npm run build`; installed missing `@types/cors`.
-10. Bootstrapped frontend with Vite and installed Tailwind, Axios, Recharts, ESLint, Prettier.
-11. Implemented frontend domain/ports/application/plant wiring and sample tabbed UI.
-12. Wrote required docs (`README.md`, `AGENT_WORKFLOW.md`, `REFLECTION.md`).
+1. Checked environment and setup `backend/` and `frontend/` directories.
+2. Initialized Git repository.
+3. Created backend configuration including Express app, Hexagonal wiring (Ports/Adapters).
+4. Created DB migrations for schemas corresponding directly to the domain.
+5. Created Backend routers handling `GET /routes`, `POST /baseline`, `GET /compliance`, `POST /banking`, `POST /pools`.
+6. Verified backend with Jest (`npm run test`), achieving 100% pass on 10 backend tests.
+7. Iterated on frontend by creating React Hexagonal setup, configuring Vite + TailwindCSS.
+8. Created UI Components using Recharts for `CompareTab.tsx` and complex logic components for `BankingTab.tsx` and `PoolingTab.tsx`.
+9. Addressed TypeScript strict mode linting rules including `.tsx` type-checking, hoisting asynchronous callbacks outside of `useEffect()`, and importing interfaces with `type`.
+10. Finalized Tailwind v4 PostCSS compilation fixes.
 
 ## Prompt examples
-- Provided the full user request for functionality and scaffold details.
-- Followed plan section by section while writing code.
+- Generated `PostgresBankRepository.ts` implementation using task spec.
+- Solved architectural logic limits for creating `Pool` instances based on deficit/surplus math.
+- Addressed multiple IDE feedback and ESLint warnings autonomously.

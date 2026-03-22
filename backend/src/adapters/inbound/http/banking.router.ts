@@ -3,34 +3,36 @@ import { bankSurplusUseCase, applyBankedUseCase, bankRepository } from '../../..
 
 export const bankingRouter = Router();
 
-bankingRouter.get('/:routeId/:year/balance', async (req, res, next) => {
+bankingRouter.get('/records', async (req, res, next) => {
   try {
-    const { routeId, year } = req.params;
-    const balance = await bankRepository.getBalance(routeId, Number(year));
-    res.json({ routeId, year: Number(year), balance });
+    const { shipId, year } = req.query;
+    if (!shipId || !year) return res.status(400).json({ error: 'shipId and year required' });
+    const records = await bankRepository.findEntries(String(shipId), Number(year));
+    res.json(records);
   } catch (error) {
     next(error);
   }
 });
 
-bankingRouter.post('/:routeId/:year/bank', async (req, res, next) => {
+bankingRouter.post('/bank', async (req, res, next) => {
   try {
-    const { routeId, year } = req.params;
-    const { amount } = req.body;
-    const result = await bankSurplusUseCase.execute(routeId, Number(year), Number(amount));
+    const { shipId, year, amount } = req.body;
+    if (!shipId || !year || !amount) return res.status(400).json({ error: 'Missing parameters' });
+    const result = await bankSurplusUseCase.execute(String(shipId), Number(year), Number(amount));
     res.json(result);
   } catch (error) {
     next(error);
   }
 });
 
-bankingRouter.post('/:routeId/:year/apply', async (req, res, next) => {
+bankingRouter.post('/apply', async (req, res, next) => {
   try {
-    const { routeId, year } = req.params;
-    const { amount } = req.body;
-    const result = await applyBankedUseCase.execute(routeId, Number(year), Number(amount));
+    const { shipId, year, amount } = req.body;
+    if (!shipId || !year || !amount) return res.status(400).json({ error: 'Missing parameters' });
+    const result = await applyBankedUseCase.execute(String(shipId), Number(year), Number(amount));
     res.json(result);
   } catch (error) {
     next(error);
   }
 });
+

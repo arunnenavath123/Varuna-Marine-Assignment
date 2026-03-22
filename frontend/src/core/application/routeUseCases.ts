@@ -1,4 +1,4 @@
-import { IRouteService } from '../ports/IRouteService';
+import type { IRouteService } from '../ports/IRouteService';
 
 export const createRouteUseCases = (routeService: IRouteService) => ({
   fetchRoutes: async () => await routeService.getAllRoutes(),

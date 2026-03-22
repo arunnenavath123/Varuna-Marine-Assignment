@@ -23,8 +23,17 @@ export class PostgresBankRepository implements IBankRepository {
       'SELECT cb_after FROM bank_entries WHERE route_id = $1 AND year = $2 ORDER BY created_at DESC LIMIT 1',
       [routeId, year],
     );
-    if (!rows.length) return 0;
-    return parseFloat(rows[0].cb_after);
+    if (rows.length > 0) {
+      return parseFloat(rows[0].cb_after);
+    }
+    const { rows: complianceRows } = await this.db.query(
+      'SELECT cb_gco2eq FROM ship_compliance WHERE route_id = $1 AND year = $2 ORDER BY created_at DESC LIMIT 1',
+      [routeId, year]
+    );
+    if (complianceRows.length > 0) {
+      return parseFloat(complianceRows[0].cb_gco2eq);
+    }
+    return 0;
   }
 
   async saveBankEntry(entry: BankEntry): Promise<void> {
