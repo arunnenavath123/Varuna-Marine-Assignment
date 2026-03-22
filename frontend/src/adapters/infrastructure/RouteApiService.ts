@@ -4,7 +4,7 @@ import type { Route } from '../../core/domain/Route';
 import type { ComparisonResult } from '../../core/domain/Comparison';
 
 export class RouteApiService implements IRouteService {
-  private readonly base = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+  private readonly base = import.meta.env.VITE_API_URL || 'http://127.0.0.1:4000';
 
   async getAllRoutes(): Promise<Route[]> {
     const { data } = await axios.get(`${this.base}/routes`);

@@ -3,7 +3,7 @@ import type { IComplianceService } from '../../core/ports/IComplianceService';
 import type { ShipCompliance, BankEntry, AdjustedCbSnapshot, Pool } from '../../core/domain/ComplianceTypes';
 
 export class ComplianceApiService implements IComplianceService {
-  private readonly base = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+  private readonly base = import.meta.env.VITE_API_URL || 'http://127.0.0.1:4000';
 
   async getAllCb(year: number): Promise<ShipCompliance[]> {
     const { data } = await axios.get(`${this.base}/compliance/cb?year=${year}`);

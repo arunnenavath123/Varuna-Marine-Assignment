@@ -1,13 +1,11 @@
+import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { routesRouter } from '../../adapters/inbound/http/routes.router';
 import { complianceRouter } from '../../adapters/inbound/http/compliance.router';
 import { bankingRouter } from '../../adapters/inbound/http/banking.router';
 import { poolsRouter } from '../../adapters/inbound/http/pools.router';
-import { NotFoundError, ValidationError } from '../../shared/errors';
-
-dotenv.config();
+import { ValidationError, NotFoundError } from '../../shared/errors';
 
 const app = express();
 app.use(cors());
@@ -30,8 +28,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 const port = process.env.PORT ? Number(process.env.PORT) : 4000;
-app.listen(port, () => {
-  console.log(`FuelEU API listening on port ${port}`);
+app.listen(port, '127.0.0.1', () => {
+  console.log(`FuelEU API listening on http://127.0.0.1:${port}`);
 });
 
 export default app;

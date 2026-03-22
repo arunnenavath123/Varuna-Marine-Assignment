@@ -1,6 +1,7 @@
 import { IPoolRepository } from '../ports/outbound/IPoolRepository';
 import { Pool, PoolMember } from '../domain/Pool';
 import { ValidationError } from '../../shared/errors';
+import { randomUUID } from 'crypto';
 
 export interface PoolMemberInput {
   routeId: string;
@@ -51,7 +52,7 @@ export class CreatePoolUseCase {
     }
 
     const pool: Pool = {
-      id: `pool-${year}-${Date.now()}`,
+      id: randomUUID(),
       year,
       createdAt: new Date().toISOString(),
       members: allocations,
