@@ -3,6 +3,7 @@ import { IComplianceRepository } from '../ports/outbound/IComplianceRepository';
 import { NotFoundError } from '../../shared/errors';
 import { computeComplianceBalance } from '../domain/ComplianceCalculator';
 import { ShipCompliance } from '../domain/ShipCompliance';
+import { randomUUID } from 'crypto';
 
 export class ComputeCBUseCase {
   constructor(
@@ -17,7 +18,7 @@ export class ComputeCBUseCase {
     }
     const cb = computeComplianceBalance(route.ghgIntensity, route.fuelConsumption);
     const snapshot: ShipCompliance = {
-      id: `${routeId}-${year}-${Date.now()}`,
+      id: randomUUID(),
       routeId,
       year,
       cbGco2eq: cb,

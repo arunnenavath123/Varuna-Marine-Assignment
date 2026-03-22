@@ -1,6 +1,5 @@
 # FuelEU Maritime Compliance Platform
 
-![Application Demo](demo.webp)
 
 FuelEU Maritime is implemented with a hexagonal architecture split into `backend/` and `frontend/`.
 

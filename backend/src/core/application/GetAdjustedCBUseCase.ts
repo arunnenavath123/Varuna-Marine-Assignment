@@ -14,8 +14,10 @@ export class GetAdjustedCBUseCase {
     }
     // Fetch all routes
     const routes = await this.routeRepo.findAll();
+    const validRoutes = routes.filter((r) => r.year === year);
+    
     const results = await Promise.all(
-      routes.map(async (route) => {
+      validRoutes.map(async (route) => {
         const balance = await this.bankRepo.getBalance(route.routeId, year);
         return { routeId: route.routeId, year, adjustedCb: balance };
       })

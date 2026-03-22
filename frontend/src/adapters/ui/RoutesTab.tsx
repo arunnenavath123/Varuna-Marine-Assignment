@@ -11,11 +11,15 @@ export function RoutesTab({ routes, onSetBaseline }: RoutesTabProps) {
 
   const filteredRoutes = useMemo(() => {
     return routes.filter((r) => {
-      return (
-        (!filters.vesselType || r.vesselType === filters.vesselType) &&
-        (!filters.fuelType || r.fuelType === filters.fuelType) &&
-        (!filters.year || String(r.year) === filters.year)
-      );
+      const vFilter = filters.vesselType.trim().toLowerCase();
+      const fFilter = filters.fuelType.trim().toLowerCase();
+      const yFilter = filters.year.trim().toLowerCase();
+
+      const matchVessel = !vFilter || (r.vesselType && r.vesselType.toLowerCase().includes(vFilter));
+      const matchFuel = !fFilter || (r.fuelType && r.fuelType.toLowerCase().includes(fFilter));
+      const matchYear = !yFilter || (r.year != null && String(r.year).toLowerCase().includes(yFilter));
+
+      return matchVessel && matchFuel && matchYear;
     });
   }, [routes, filters]);
 

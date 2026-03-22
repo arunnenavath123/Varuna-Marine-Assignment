@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { computeCBUseCase, getAdjustedCBUseCase, complianceRepository } from '../../../infrastructure/server/container';
+import { computeCBUseCase, getAdjustedCBUseCase, complianceRepository, routeRepository } from '../../../infrastructure/server/container';
 
 export const complianceRouter = Router();
 
@@ -13,9 +13,19 @@ complianceRouter.get('/cb', async (req, res, next) => {
       return res.json(result);
     }
     
-    const all = await complianceRepository.findAll();
-    const filtered = all.filter(c => c.year === Number(year));
-    res.json(filtered);
+    const routes = await routeRepository.findAll();
+    const routesForYear = routes.filter(r => r.year === Number(year));
+    
+    const existingCbs = await complianceRepository.findAll();
+    
+    const results = await Promise.all(routesForYear.map(async (route) => {
+      const found = existingCbs.find(c => c.routeId === route.routeId && c.year === route.year);
+      if (found) return found;
+      // Dynamically compute missing compliance balances to populate the UI correctly
+      return await computeCBUseCase.execute(route.routeId, route.year);
+    }));
+
+    res.json(results);
   } catch (error) {
     next(error);
   }
